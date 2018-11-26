@@ -12,15 +12,15 @@ A basic Catalog App Template with correct folder structure for deployment , also
 
 Folder Hiearchy
 
-YourApp
+Catalog
    templates
    static
      css
       .css files
      js
        .js files
-   app.py
-   yourapp.wsgi
+   __init__.py
+catalog.wsgi
 
 ```
 
@@ -28,36 +28,36 @@ YourApp
 
 1) Download the zip file and extract to the location of choice
 
-2) Navigate to your YourApp/venv and edit the requirements.txt file to include the packages your app requires.
+2) Navigate to your Catalog/venv and edit the requirements.txt file to include the packages your app requires.
 
-3) Rename the folder called YourApp to your app name.
+3) Rename the folder called Catalog to your app name.
 
 4) Rename the .wsgi file to your app name, preferably in lowercase to the app name
 
-For example lets say we had a folder called FlaskApp which holds all your flask apps on the server, and your app your are deploying was called TEST, your folder structure on the server should look like this once deployed.
+For example lets say we had a folder called FlaskApp which holds all your flask apps on the server, and your app your are deploying was called FlaskApp, your folder structure on the server should look like this once deployed.
 
 ```python
 
-FlaskApp
-  TEST
+FlaskApps
+  Catalog
     static
     templates
     venv
-    app.py (*** rename this to __init__.py when the folder is deployed to the server)
-  test.wsgi
+    __init__.py 
+  catalog.wsgi
 
 ```  
 
 
-5)Once your folder is deployed to the server, navigate to TEST/venv and type the
+5)Once your folder is deployed to the server, navigate to Catalog/venv and type the
   command virtualenv.(the period represents the current directory) and will install all python dependencies in the venv folder. 
 
 6)Still in the folder venv type the command source bin/activate which will activate the virtualenv.
   Then install all packages required by your app by running the command pip install -r requirements.txt.
 
-7)Edit the test.wsgi file and change the commands as required  
+7)Edit the catalog.wsgi file and change the commands as required  
 
-The wsgi file for deploying this app would look like this if your app was called TEST.
+The wsgi file for deploying this app would look like this:
 
 ```python
 
@@ -65,13 +65,11 @@ The wsgi file for deploying this app would look like this if your app was called
 import sys
 import logging
 
-activate_this = '/var/www/FlaskApp/TEST/venv/bin/activate_this.py'
-execfile(activate_this, dict(__file__=activate_this))
-
 logging.basicConfig(stream=sys.stderr)
-sys.path.insert(0,"/var/www/FlaskApp/")
+sys.path.insert(0,"/var/www/FlaskApps/")
+from Catalog import app as application
 
-from TEST import app as application
+
 application.secret_key = 'Add your secret key'
 
 ```
@@ -80,35 +78,37 @@ application.secret_key = 'Add your secret key'
 
 ```python
 
-nano /etc/apache2/sites-available/TEST.conf  where TEST is the name of the app
+sudo nano /etc/apache2/sites-available/FlaskApp.conf  where FlaskApp is the name of the app
 
 ```
 
-####example content for the TEST.conf file
+####example content for the FlaskApp.conf file
 
 ```python
 
 <VirtualHost *:80>
-		ServerName mywebsite.com
-		ServerAdmin admin@mywebsite.com
-		WSGIScriptAlias / /var/www/FlaskApp/test.wsgi
-		<Directory /var/www/FlaskApp/TEST/>
-			Order allow,deny
-			Allow from all
-		</Directory>
-		Alias /static /var/www/FlaskApp/TEST/static
-		<Directory /var/www/FlaskApp/TEST/static/>
-			Order allow,deny
-			Allow from all
-		</Directory>
-		ErrorLog ${APACHE_LOG_DIR}/error.log
-		LogLevel warn
-		CustomLog ${APACHE_LOG_DIR}/access.log combined
+                ServerName 3.121.251.27
+                ServerAdmin admin@mywebsite.com
+                WSGIScriptAlias / /var/www/FlaskApps/catalog.wsgi
+                <Directory /var/www/FlaskApps/Catalog/>
+                        Order allow,deny
+                        Allow from all
+                </Directory>
+                Alias /static /var/www/FlaskApps/Catalog/static
+                <Directory /var/www/FlaskAppsy/Catalog/static/>
+                        Order allow,deny
+                        Allow from all
+                </Directory>
+                ErrorLog ${APACHE_LOG_DIR}/error.log
+                LogLevel warn
+                CustomLog ${APACHE_LOG_DIR}/access.log combined
 </VirtualHost>
+
+
 
 ```
 
-9) then run the command a2ensite TEST.
+9) then run the command sudo a2ensite FlaskApp.conf.
 
 10) Lastly we need to give apache access to the folders. navigate to
     
@@ -118,7 +118,7 @@ nano /etc/apache2/sites-available/TEST.conf  where TEST is the name of the app
 
 11) run the command
   
-    service apache2 reload
+    sudo service apache2 reload
 
 This should be all your need to deploy your app to a apache server.
 
