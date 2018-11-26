@@ -1,0 +1,53 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+
+<section class="about-banner relative">
+  <div class="overlay overlay-bg"></div>
+  <div class="container">
+    <div class="row d-flex align-items-center justify-content-center">
+      <div class="about-content col-lg-12">
+        <h1 class="text-white">
+          Categories Dashboard
+        </h1>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-gap relative">
+  <div class="overlay overlay-bg"></div>
+  <div class="container">
+    <div class="row  center align-items-center">
+      <div class="col-lg-6 offset-md-1">
+        <a href="/categories/new" id="addRes_popup"class="genric-btn primary circle btn-margin">Add Category</a>
+      </div>
+      <div class="col-lg-6 reservation-right offset-md-1">
+        <div class="progress-table-wrap offset-md-1">
+          <div class="progress-table">
+            <div class="table-head">
+              <div class="serial">#</div>
+              <div class="country">Name</div>
+              <div class="percentage"></div>
+              <div class="percentage"></div>
+              <div class="percentage"></div>
+            </div>
+            {% for i in items %}
+            <div class="table-row">
+              <div class="serial">{{i.id}}</div>
+              <div class="country">{{i.name}}</div>
+              <div class="percentage">
+                <a href="/categories/{{i.id}}/edit" class="genric-btn primary circle">Edit</a>
+                <a href="/categories/{{i.id}}/delete" class="genric-btn primary circle">Delete</a>
+                <a href="/categories/{{i.id}}/products" class="genric-btn primary circle">Prodcuts</a>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

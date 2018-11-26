@@ -1,0 +1,41 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+<!-- start banner Area -->
+<section class="about-banner relative">
+  <div class="overlay overlay-bg"></div>
+  <div class="container">
+    <div class="row d-flex align-items-center justify-content-center">
+      <div class="about-content col-lg-12">
+        <h1 class="text-white">
+          Categories Dashboard
+        </h1>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Start reservation Area -->
+<section class="section-gap relative">
+  <div class="row d-flex justify-content-center">
+      <div class="menu-content pb-70 col-lg-8">
+        <div class="title text-center">
+          <h1 class="mb-10">Delete Category</h1>
+        </div>
+      </div>
+    </div>
+  <div class="container">
+    <div class="row  center align-items-center">
+      <div class="col-lg-6  offset-md-3">
+           <form class="form-wrap text-center"  action="{{ url_for('categories_delete',category_id=category_id)}}"
+                 method = 'post'>
+             <input type="text" class="form-control" name="name" value="{{item.name}}" disabled>
+             <input class="genric-btn primary circle text-uppercase mt-20" value="Delete" type='submit'/>
+               <a href="/categories"class="text-uppercase genric-btn primary circle btn-margin">Cancel</a>
+           </form>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

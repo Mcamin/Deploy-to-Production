@@ -1,0 +1,170 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+<!-- start banner Area -->
+<section class="about-banner relative">
+  <div class="overlay overlay-bg"></div>
+  <div class="container">
+    <div class="row d-flex align-items-center justify-content-center">
+      <div class="about-content col-lg-12">
+        <h1 class="text-white">
+          Login
+        </h1>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Start reservation Area -->
+<section class="section-gap relative">
+  <div class="row d-flex justify-content-center">
+    <div class="menu-content pb-70 col-lg-8">
+      <div class="title text-center">
+        <h1 class="mb-10">Sign in</h1>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row d-flex justify-content-center">
+      <div class="menu-content pb-70 col-lg-8">
+        <div class=" text-center" id="result"></div>
+        <div id="signupform"class=" text-center">
+
+          <div class="container-login100-form-btn">
+            <form class="form-wrap text-center" action="" method='post'>
+              <input type="text" class="form-control" name="Username" placeholder="Username"
+                     onfocus="this.placeholder = ''" onblur="this.placeholder = ''" disabled>
+              <input type="password" class="form-control  mt-20" name="Password" placeholder="Password"
+                     onfocus="this.placeholder = ''" onblur="this.placeholder = ''" disabled>
+              <input class="genric-btn primary circle text-uppercase mt-20" value="Sign in" type='submit' />
+              <a href="/" class="text-uppercase genric-btn primary circle btn-margin">Cancel</a>
+            </form>
+          </div>
+          <div class="text-center p-t-20 p-b-20">
+            <span class="txt1">
+              Or login with
+            </span>
+          </div>
+          <div class="flex-c p-b-50">
+            <a id="fbbtn" href='#'  class="login100-social-item fa fa-facebook-f">
+            </a>
+            <div class="g-signin login100-social-item" data-onsuccess="onSignIn" data-longtitle="true"
+                 data-scope="openid email"
+                 data-clientid="191095492347-auvi7b8pqr6268126c7as9aunqrg3sg1.apps.googleusercontent.com"
+                 data-redirecturi="postmessage"
+                 data-accesstype="offline" data-cookiepolicy="single_host_origin" data-callback="signInCallback"
+                 data-approvalprompt="force">
+
+              <img src="{{ url_for('static', filename='img/icons/icon-google.png') }}" alt="GOOGLE">
+            </div>
+          </div>
+          <div class="text-center">
+            <a href="#" class="fs-18" style="color:#f42f2c!important;">
+              Sign Up
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</section>
+
+<script>
+  function signInCallback(authResult) {
+    if (authResult['code']) {
+      // Hide the sign-in button now that the user is authorized
+      $('#signupform').attr('style', 'display: none');
+      // Send the one-time-use code to the server, if the server responds, write a 'login successful'
+      // message to the web page and then redirect back to the main restaurants page
+      $.ajax({
+        type: 'POST',
+        url: '/gconnect?state={{STATE}}',
+        processData: false,
+        data: authResult['code'],
+        contentType: 'application/octet-stream; charset=utf-8',
+        success: function(result) {
+          // Handle or verify the server response if necessary.
+          if (result) {
+            $('#result').html('Login Successful!</br>' + result + '</br>Redirecting...')
+            setTimeout(function() {
+              window.location.href = "/categories";
+            }, 4000);
+
+          } else if (authResult['error']) {
+            console.log('There was an error: ' + authResult['error']);
+          } else {
+            $('#result').html('Failed to make a server-side call. Check your configuration and console.');
+          }
+        }
+
+      });
+    }
+  }
+</script>
+<!--FACEBOOK SIGN IN -->
+<script>
+document.getElementById('fbbtn').addEventListener('click', function() {
+    //do the login
+    FB.login(sendTokenToServer, {scope: 'email,public_profile', return_scopes: true});
+}, false);
+
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId: '313936632759450',
+      cookie: true, // enable cookies to allow the server to access
+      // the session
+      xfbml: true, // parse social plugins on this page
+      version: 'v3.2' // use version 3.2
+    });
+
+  };
+
+  // Load the SDK asynchronously
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s);
+    js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+
+  // Here we run a very simple test of the Graph API after login is
+  // successful.  See statusChangeCallback() for when this call is made.
+  function sendTokenToServer() {
+    var access_token = FB.getAuthResponse()['accessToken'];
+    console.log(access_token)
+    console.log('Welcome!  Fetching your information.... ');
+    $('#signupform').attr('style', 'display: none');
+    FB.api('/me', function(response) {
+      console.log('Successful login for: ' + response.name);
+      $.ajax({
+        type: 'POST',
+        url: '/fbconnect?state={{STATE}}',
+        processData: false,
+        data: access_token,
+        contentType: 'application/octet-stream; charset=utf-8',
+        success: function(result) {
+          // Handle or verify the server response if necessary.
+          if (result) {
+            $('#result').html('Login Successful!</br>' + result + '</br>Redirecting...')
+            setTimeout(function() {
+              window.location.href = "/categories";
+            }, 4000);
+
+
+          } else {
+            $('#result').html('Failed to make a server-side call. Check your configuration and console.');
+          }
+
+        }
+
+      });
+
+
+    });
+  }
+</script>
+{% endblock %}

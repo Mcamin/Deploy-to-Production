@@ -1,0 +1,61 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+<!-- start banner Area -->
+<section class="about-banner relative">
+  <div class="overlay overlay-bg"></div>
+  <div class="container">
+    <div class="row d-flex align-items-center justify-content-center">
+      <div class="about-content col-lg-12">
+        <h1 class="text-white">
+          Categories
+        </h1>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End banner Area -->
+<section class="blog-area section-gap" id="blog">
+  <div class="container">
+    <div class="row d-flex justify-content-center">
+      <div class="menu-content pb-70 col-lg-8">
+        <div class="title text-center">
+          <h1 class="mb-10">Our Categories </h1>
+          <p>The best Catalog recommanded by Udacity Fullstack Students</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      {% for i in items %}
+      <div class="col-lg-3 col-md-6 col-sm-6 single-blog"
+      style="margin-top:15px;">
+        <a href="{{i.id}}/products">
+          <div class="thumb">
+            {% if i.name == 'Shoes' %}
+            <img class="img-fluid" src="{{ url_for('static',
+            filename='img/2.jpg')}}" alt="">
+            {% endif %}
+            {% if i.name == 'Clothes' %}
+            <img class="img-fluid" src="{{ url_for('static',
+            filename='img/1.jpg')}}" alt="">
+            {% endif %}
+            {% if i.name == 'Accessories' %}
+            <img class="img-fluid" src="{{ url_for('static',
+            filename='img/3.jpg')}}" alt="">
+            {% endif %}
+            {% if i.name != 'Accessories' and i.name != 'Clothes' and i.name != 'Shoes' %}
+            <img class="img-fluid" src="{{ url_for('static',
+            filename='img/new.jpg')}}" alt="">
+            {% endif %}
+          </div>
+          <h4>{{i.name}}</h4>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+
+  </div>
+</section>
+{% endblock %}

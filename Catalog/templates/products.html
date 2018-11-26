@@ -1,0 +1,56 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<!-- Start menu-area Area -->
+<section class="about-banner relative">
+  <div class="overlay overlay-bg"></div>
+  <div class="container">
+    <div class="row d-flex align-items-center justify-content-center">
+      <div class="about-content col-lg-12">
+        <h1 class="text-white">
+          {{category.name}}
+        </h1>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="menu-area section-gap" id="menu">
+  <div class="container">
+    <div class="row d-flex justify-content-center">
+      <div class="menu-content pb-70 col-lg-8">
+        <div class="title text-center">
+          <h1 class="mb-10">This is Mods</h1>
+          <p>RECOMMENDED FOR YOU.</p>
+        </div>
+      </div>
+    </div>
+
+    <ul class="filter-wrap filters col-lg-12 no-padding">
+      <li class="active" data-filter="*">All Products</li>
+           {% for i in brands %}
+      <li data-filter=".{{i[0]}}">{{i[0]}}</li>
+      	{% endfor %}
+    </ul>
+
+    <div class="filters-content">
+      <div class="row grid">
+        	{% for i in items %}
+        <div class="col-md-6 all {{i.brand}}">
+          <div class="single-menu">
+            <div class="title-wrap d-flex justify-content-between">
+              <h4>{{i.name}}</h4>
+              <h4 class="price">{{i.price}}</h4>
+            </div>
+            <p>
+            {{i.description}}
+            </p>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+  </div>
+</section>
+{% endblock %}
+<!-- End menu-area Area -->

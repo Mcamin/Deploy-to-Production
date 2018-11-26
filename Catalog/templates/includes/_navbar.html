@@ -1,0 +1,29 @@
+<header id="header">
+  <div class="header-top">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div id="logo">
+          <a href="index.html">
+            <img src="{{ url_for('static', filename='img/logo.png') }}" alt="" title="" /></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container main-menu">
+    <div class="row align-items-center justify-content-center d-flex">
+      <nav id="nav-menu-container">
+        <ul class="nav-menu">
+          <li><a href="/">Home</a></li>
+          <li><a href="/categories">Edit Categories</a></li>
+          <li class="menu-has-children">
+            {%if 'username' not in session %}
+            <a href="{{url_for('showLogin')}}">Login </a>
+            {% else %}
+            <a href="{{url_for('disconnect')}}">Logout </a>
+            {% endif %}
+          </li>
+        </ul>
+      </nav><!-- #nav-menu-container -->
+    </div>
+  </div>
+</header><!-- #header -->
