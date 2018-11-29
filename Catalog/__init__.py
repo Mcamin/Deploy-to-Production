@@ -14,15 +14,17 @@ from oauth2client.client import FlowExchangeError
 import httplib2
 import json
 from flask import make_response
-from Config import Base, Product, Category, User
-import requests
 import os 
+#Fix loading files from  FlaskApps instrad of current Directory
+os.chdir("/var/www/FlaskApps/Catalog")
+print(os.getcwd())
+from .Config import Base, Product, Category, User
+import requests
 
 
 app = Flask(__name__)
 
-#Fix loading files from  FlaskApps instrad of current Directory 
-os.chdir("/var/www/FlaskApps/Catalog")
+
 
 """Read the clients_secrets.json file and ger the client id"""
 CLIENT_ID = json.loads(
@@ -56,7 +58,7 @@ def category_show():
 def showLogin():
     """Create Anti forgery state token"""
     state = ''.join(random.choice(string.ascii_uppercase + string.digits)
-                    for x in xrange(32))
+                    for x in range(32))
     login_session['state'] = state
     return render_template("login.html", STATE=state)
 
@@ -579,7 +581,6 @@ def getUserID(email):
 
 
 if __name__ == '__main__':
-    app.debug = True   
     app.secret_key = 'da39a3ee5e6b4b0d3255bfef95601890afd80709'
-    app.run(host='0.0.0.0', port=8080)
+    app.run()
 
