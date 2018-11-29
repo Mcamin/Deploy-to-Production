@@ -1,10 +1,9 @@
 # A Flask app Deployment on Lightsail
 
-##flask-bootstrap-apache-template
-A basic Catalog App Template with correct folder structure for deployment , also included a wsgi file for deployment to a apache server.
+A basic Catalog App  with correct folder structure for deployment , also included a wsgi file for deployment to a apache server.
 
 ##Motivation
-  The idea for this template came from building a few flask web apps. This template aims to also make deployment to a apache2 server easy. The one aspect of coding that made me want to pull my hair out was deployment. I hope this template and guide makes using and deploying flask apps easier for other developers.
+  The Project is for the Udacity Fullstack Nano Degree. its aims to deploy a Flask App on apache2 server. I hope this template and guide makes using and deploying flask apps easier for other developers.
   
 ## Example
 
@@ -20,6 +19,7 @@ Catalog
      js
        .js files
    __init__.py
+   config.py
 catalog.wsgi
 
 ```
@@ -28,7 +28,7 @@ catalog.wsgi
 
 1) Download the zip file and extract to the location of choice
 
-2) Navigate to your Catalog/venv and edit the requirements.txt file to include the packages your app requires.
+2) Navigate to your Catalog/venv and add a requirements.txt file to include the packages your app requires or just install them manually.
 
 3) Rename the folder called Catalog to your app name.
 
@@ -44,6 +44,7 @@ FlaskApps
     templates
     venv
     __init__.py 
+    other .py Files
   catalog.wsgi
 
 ```  
@@ -53,7 +54,7 @@ FlaskApps
   command virtualenv.(the period represents the current directory) and will install all python dependencies in the venv folder. 
 
 6)Still in the folder venv type the command source bin/activate which will activate the virtualenv.
-  Then install all packages required by your app by running the command pip install -r requirements.txt.
+  Then install all packages required by your app by running the command pip install -r requirements.txt. or install them manually.
 
 7)Edit the catalog.wsgi file and change the commands as required  
 
@@ -87,7 +88,7 @@ sudo nano /etc/apache2/sites-available/FlaskApp.conf  where FlaskApp is the name
 ```python
 
 <VirtualHost *:80>
-                ServerName 3.121.251.27
+                ServerName DomainName or Server Ip
                 ServerAdmin admin@mywebsite.com
                 WSGIScriptAlias / /var/www/FlaskApps/catalog.wsgi
                 <Directory /var/www/FlaskApps/Catalog/>
@@ -114,7 +115,7 @@ sudo nano /etc/apache2/sites-available/FlaskApp.conf  where FlaskApp is the name
     
     /var/www/FlaskApp and type the command
 
-    chown -R www-data:www-data TEST
+    chown -R www-data:www-data FlaskApp
 
 11) run the command
   
